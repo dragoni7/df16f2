@@ -1,25 +1,14 @@
-import { useEffect, useState } from 'react';
-import { GetActionBlueprintGraph } from '../api/get-action-blueprint-graph';
-import { BlueprintGraph } from '../types';
+import { useContext } from 'react';
+import { ActionBlueprintGraphContext } from '../components/ActionBlueprintGraphProvider';
 
 /**
  * Use the action blueprint graph data served by a local server
  * @returns the graph data and loading state
  */
 export default function useActionBlueprintGraph() {
-  const [graph, setGraph] = useState<BlueprintGraph | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const actionBlueprintGraph = useContext(ActionBlueprintGraphContext);
 
-  useEffect(() => {
-    async function fetchGraph() {
-      setLoading(true);
-      const graph = await GetActionBlueprintGraph();
-      setGraph(graph);
-      setLoading(false);
-    }
+  if (!actionBlueprintGraph.graph) console.error('Missing action blueprint graph!');
 
-    fetchGraph().catch(console.error);
-  }, []);
-
-  return { graph, loading };
+  return actionBlueprintGraph;
 }

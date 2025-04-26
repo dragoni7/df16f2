@@ -1,14 +1,12 @@
 import { ViewListOutlined } from '@mui/icons-material';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Drawer, Paper, Stack, Typography } from '@mui/material';
 import { Handle, Position } from '@xyflow/react';
-import { useCallback } from 'react';
+import { useState } from 'react';
+import Form from './Form';
 
 export default function FormNode({ data }: any) {
-  const onClick = useCallback((id: string) => {
-    console.log(id);
-  }, []);
+  const [formOpen, setFormOpen] = useState<boolean>(false);
 
-  // TODO: implement the form
   return (
     <>
       <Handle type="target" position={Position.Left} />
@@ -36,7 +34,7 @@ export default function FormNode({ data }: any) {
               cursor: 'pointer',
             },
           }}
-          onClick={() => onClick(data.id)}
+          onClick={() => setFormOpen(true)}
         >
           <ViewListOutlined />
         </Box>
@@ -46,6 +44,9 @@ export default function FormNode({ data }: any) {
         </Box>
       </Paper>
       <Handle type="source" position={Position.Right} />
+      <Drawer open={formOpen} onClose={() => setFormOpen(false)} anchor="bottom">
+        <Form data={data} />
+      </Drawer>
     </>
   );
 }
