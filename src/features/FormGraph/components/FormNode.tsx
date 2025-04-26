@@ -1,5 +1,5 @@
 import { ViewListOutlined } from '@mui/icons-material';
-import { Box, Drawer, Paper, Stack, Typography } from '@mui/material';
+import { Box, Drawer, Paper, Typography } from '@mui/material';
 import { Handle, Position } from '@xyflow/react';
 import { useState } from 'react';
 import Form from './Form';

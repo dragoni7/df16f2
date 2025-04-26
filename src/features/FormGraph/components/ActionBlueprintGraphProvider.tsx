@@ -1,17 +1,17 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { BlueprintGraph, Form } from '../types';
+import { BlueprintGraph, DynamicForm } from '../types';
 import { GetActionBlueprintGraph } from '../api/get-action-blueprint-graph';
 
 type ActionBlueprintGraphContextProps = {
   graph: BlueprintGraph | null;
   loading: boolean;
-  getForm: (id: string) => Form | undefined;
+  getForm: (id: string) => DynamicForm | undefined;
 };
 
 export const ActionBlueprintGraphContext = createContext<ActionBlueprintGraphContextProps>({
   graph: null,
   loading: false,
-  getForm: function (id: string): Form | undefined {
+  getForm: function (id: string): DynamicForm | undefined {
     throw new Error('Function not implemented.');
   },
 });
@@ -20,7 +20,7 @@ export default function ActionBlueprintGraphProvider({ children }: { children: R
   const [graph, setGraph] = useState<BlueprintGraph | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  function getForm(id: string): Form | undefined {
+  function getForm(id: string): DynamicForm | undefined {
     return graph?.forms.find((f) => f.id === id);
   }
 

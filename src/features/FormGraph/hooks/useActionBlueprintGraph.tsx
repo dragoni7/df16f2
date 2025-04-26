@@ -3,12 +3,13 @@ import { ActionBlueprintGraphContext } from '../components/ActionBlueprintGraphP
 
 /**
  * Use the action blueprint graph data served by a local server
- * @returns the graph data and loading state
+ * @returns the action blueprint graph context
  */
 export default function useActionBlueprintGraph() {
   const actionBlueprintGraph = useContext(ActionBlueprintGraphContext);
 
-  if (!actionBlueprintGraph.graph) console.error('Missing action blueprint graph!');
+  if (!actionBlueprintGraph.loading && !actionBlueprintGraph.graph)
+    console.error('Missing action blueprint graph!');
 
   return actionBlueprintGraph;
 }

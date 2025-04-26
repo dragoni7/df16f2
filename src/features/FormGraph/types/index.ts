@@ -4,7 +4,7 @@ export type BlueprintGraph = {
   blueprint_name: string;
   branches: Branch[];
   edges: Edge[];
-  forms: Form[];
+  forms: DynamicForm[];
   nodes: Node[];
   status: 'draft' | 'published' | 'historical' | 'archived';
   tenant_id: string;
@@ -31,7 +31,7 @@ export type Edge = {
   target: string;
 };
 
-export type Form = {
+export type DynamicForm = {
   $schema?: string;
   custom_javascript?: string;
   custom_javascript_triggering_fields?: string[];
