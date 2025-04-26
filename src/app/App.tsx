@@ -3,7 +3,7 @@ import FormGraph from '../features/FormGraph/components/FormGraph';
 
 function App() {
   return (
-    <Container maxWidth="lg" sx={{ height: '100vh' }}>
+    <Container maxWidth="xl" sx={{ height: '100vh' }}>
       <FormGraph />
     </Container>
   );

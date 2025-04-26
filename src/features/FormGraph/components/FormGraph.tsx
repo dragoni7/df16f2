@@ -34,7 +34,7 @@ export default function FormGraph() {
           })}
           nodeTypes={nodeTypes}
         >
-          <Background color="#ccc" variant={BackgroundVariant.Cross} />
+          <Background color="#93a4d9" variant={BackgroundVariant.Dots} />
         </ReactFlow>
       ) : (
         <div>Loading</div>
