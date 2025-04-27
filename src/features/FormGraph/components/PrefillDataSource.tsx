@@ -37,12 +37,12 @@ export default function PrefillDataSource(props: PrefillDataSourceProps) {
       </AccordionSummary>
       <AccordionDetails>
         <List dense>
-          {options.map((o) => (
+          {options.map((option) => (
             <ListItemButton
-              onClick={() => onOptionClicked(dataPrefix + '.' + o)}
-              selected={selectedOption === dataPrefix + '.' + o}
+              onClick={() => onOptionClicked(dataPrefix + '.' + option)}
+              selected={selectedOption === dataPrefix + '.' + option}
             >
-              <ListItemText primary={o} />
+              <ListItemText primary={option} />
             </ListItemButton>
           ))}
         </List>
