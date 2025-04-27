@@ -3,7 +3,7 @@ import { ActionBlueprintGraphData } from '../types';
 /**
  * Fetches the action blueprint graph from local server
  */
-export async function GetActionBlueprintGraph(): Promise<ActionBlueprintGraphData | null> {
+export async function GetActionBlueprintGraphData(): Promise<ActionBlueprintGraphData | null> {
   try {
     const response = await fetch(
       'http://localhost:3000/api/v1/1/actions/blueprints/bp_01jk766tckfwx84xjcxazggzyc/graph',

@@ -17,7 +17,7 @@ Currently prefill options are Global Data and previous form's data. To add new d
 <Box p={2} overflow="scroll" height="100%" sx={{ backgroundColor: 'lightgrey' }}>
   <Typography>Available data</Typography>
 
-   {/* Global Data */}
+  {/* Global Data */}
   <PrefillDataSource
     onOptionClicked={setSelectedOption}
     selectedOption={selectedOption}
@@ -26,7 +26,7 @@ Currently prefill options are Global Data and previous form's data. To add new d
     options={GLOBAL_DATA}
   />
 
-   {/* Previous Form Data */}
+  {/* Previous Form Data */}
   {Object.entries(prefillOptions).map(([key, value]) => (
     <PrefillDataSource
       onOptionClicked={setSelectedOption}
@@ -37,7 +37,7 @@ Currently prefill options are Global Data and previous form's data. To add new d
     />
   ))}
 
-   {/* Example Addition */}
+  {/* Example Addition */}
   <PrefillDataSource
     onOptionClicked={setSelectedOption}
     selectedOption={selectedOption}
@@ -47,6 +47,11 @@ Currently prefill options are Global Data and previous form's data. To add new d
   />
 </Box>
 ```
+
 ### Adding new features
 
 New features can be added by including a new folder for the feature in the features directory. Features should be organized by components, api, hooks, types, and util to encourage seperation of concern and decoupling.
+
+### Tests
+
+test can be run with the `npm run test` command

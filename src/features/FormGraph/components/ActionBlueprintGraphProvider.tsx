@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { GetActionBlueprintGraph as GetActionBlueprintGraphData } from '../api/get-action-blueprint-graph-data';
+import { GetActionBlueprintGraphData as GetActionBlueprintGraphData } from '../api/get-action-blueprint-graph-data';
 import { ActionBlueprintGraph } from '../util/action-blueprint-graph';
 
 type ActionBlueprintGraphContextProps = {
