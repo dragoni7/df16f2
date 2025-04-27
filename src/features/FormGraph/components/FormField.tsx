@@ -1,16 +1,11 @@
-import { Cancel, ExpandMoreOutlined, StorageOutlined } from '@mui/icons-material';
+import { Cancel, StorageOutlined } from '@mui/icons-material';
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Button,
   Divider,
   Drawer,
   IconButton,
   InputAdornment,
-  List,
-  ListItem,
   Stack,
   TextField,
   Typography,
@@ -18,18 +13,26 @@ import {
 import { useState } from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
 import { GLOBAL_DATA } from '../util/global-data';
+import PrefillDataSource from './PrefillDataSource';
 
 interface FormFieldProps<T extends Record<string, any>> {
   field: keyof T;
   control: Control<T>;
   errors: FieldErrors<T>;
-  defaultValue?: string;
+  defaultValue: string;
   prefillOptions: Record<string, string[]>;
 }
 
+/**
+ * A field with selectable prefill options.
+ * @param props
+ * @returns
+ */
 export default function FormField<T extends Record<string, any>>(props: FormFieldProps<T>) {
   const { field, control, errors, defaultValue, prefillOptions } = props;
   const [prefillOpen, setPrefillOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<string>('');
+  const [selectedOption, setSelectedOption] = useState<string>('');
 
   return (
     <>
@@ -41,10 +44,11 @@ export default function FormField<T extends Record<string, any>>(props: FormFiel
             {...renderField}
             fullWidth
             margin="normal"
-            defaultValue={defaultValue ? defaultValue : ''}
+            placeholder={defaultValue}
             error={!!errors[field as string]}
             helperText={errors[field as string]?.message as string}
-            variant="outlined"
+            value={value}
+            variant="filled"
             size="small"
             slotProps={{
               input: {
@@ -55,18 +59,24 @@ export default function FormField<T extends Record<string, any>>(props: FormFiel
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton>
-                      <Cancel />
-                    </IconButton>
+                    {value !== '' && (
+                      <IconButton onClick={() => setValue('')}>
+                        <Cancel />
+                      </IconButton>
+                    )}
                   </InputAdornment>
                 ),
                 readOnly: true,
               },
             }}
-            onClick={() => setPrefillOpen(true)}
+            onClick={() => {
+              if (value === '') setPrefillOpen(true);
+            }}
           />
         )}
       />
+
+      {/* Prefill Options */}
       <Drawer open={prefillOpen} anchor="left">
         <Typography variant="h6" p={1}>
           Select data element to map
@@ -74,41 +84,21 @@ export default function FormField<T extends Record<string, any>>(props: FormFiel
         <Divider />
         <Box p={2} overflow="scroll" height="100%" sx={{ backgroundColor: 'lightgrey' }}>
           <Typography>Available data</Typography>
-          <Accordion
-            disableGutters
-            variant="outlined"
-            elevation={0}
-            sx={{ backgroundColor: 'transparent' }}
-          >
-            <AccordionSummary expandIcon={<ExpandMoreOutlined />}>
-              <Typography>Global Data</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <List>
-                {GLOBAL_DATA.map((g) => (
-                  <ListItem>{g}</ListItem>
-                ))}
-              </List>
-            </AccordionDetails>
-          </Accordion>
+          <PrefillDataSource
+            onOptionClicked={setSelectedOption}
+            selectedOption={selectedOption}
+            label={'Global Data'}
+            dataPrefix={'Global'}
+            options={GLOBAL_DATA}
+          />
           {Object.entries(prefillOptions).map(([key, value]) => (
-            <Accordion
-              disableGutters
-              variant="outlined"
-              elevation={0}
-              sx={{ backgroundColor: 'transparent' }}
-            >
-              <AccordionSummary expandIcon={<ExpandMoreOutlined />}>
-                <Typography>{key}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <List>
-                  {value.map((v) => (
-                    <ListItem>{v}</ListItem>
-                  ))}
-                </List>
-              </AccordionDetails>
-            </Accordion>
+            <PrefillDataSource
+              onOptionClicked={setSelectedOption}
+              selectedOption={selectedOption}
+              label={key}
+              dataPrefix={key}
+              options={value}
+            />
           ))}
         </Box>
         <Divider />
@@ -116,7 +106,15 @@ export default function FormField<T extends Record<string, any>>(props: FormFiel
           <Button variant="outlined" onClick={() => setPrefillOpen(false)}>
             Cancel
           </Button>
-          <Button variant="outlined">Select</Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setValue(selectedOption);
+              setPrefillOpen(false);
+            }}
+          >
+            Select
+          </Button>
         </Stack>
       </Drawer>
     </>

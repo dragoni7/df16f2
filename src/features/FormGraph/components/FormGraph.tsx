@@ -7,14 +7,14 @@ import { useEffect } from 'react';
 import { Edge } from '../types';
 
 /**
- * Our custom nodes
+ * Our custom nodes.
  */
 const nodeTypes = {
   form: FormNode,
 };
 
 /**
- * A graph of forms using ReactFlow and action blueprint graph data
+ * A graph of forms using ReactFlow and action blueprint graph data.
  * @returns The form graph
  */
 export default function FormGraph() {

@@ -1,7 +1,7 @@
 import { ActionBlueprintGraphData } from '../types';
 
 /**
- * Retrieve the action blueprint graph from local server
+ * Fetches the action blueprint graph from local server
  */
 export async function GetActionBlueprintGraph(): Promise<ActionBlueprintGraphData | null> {
   try {
@@ -15,8 +15,6 @@ export async function GetActionBlueprintGraph(): Promise<ActionBlueprintGraphDat
     if (!response.ok) throw new Error(response.statusText);
 
     const data: ActionBlueprintGraphData = await response.json();
-
-    console.log(data);
 
     return data;
   } catch (err) {

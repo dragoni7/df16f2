@@ -8,6 +8,12 @@ import FormField from './FormField';
 interface FormProps {
   data: NodeData;
 }
+
+/**
+ * A form that supports prefill mapping via an action blueprint graph.
+ * @param props
+ * @returns
+ */
 export default function Form(props: FormProps) {
   const { graph, loading } = useActionBlueprintGraph();
   const [formData, setFormData] = useState<DynamicForm | undefined>(undefined);

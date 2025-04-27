@@ -4,6 +4,11 @@ import { Handle, Position } from '@xyflow/react';
 import { useState } from 'react';
 import Form from './Form';
 
+/**
+ * Custom node type for forms.
+ * @param param0 the node's data
+ * @returns the custom form node
+ */
 export default function FormNode({ data }: any) {
   const [formOpen, setFormOpen] = useState<boolean>(false);
 

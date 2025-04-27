@@ -1,5 +1,8 @@
 import { ActionBlueprintGraphData, DynamicForm, NodeData } from '../types';
 
+/**
+ * A directed acyclic graph of nodes containing form data.
+ */
 export class ActionBlueprintGraph {
   private readonly _data: ActionBlueprintGraphData;
   private readonly _predecessorsMap: Map<string, string[]>;
@@ -21,22 +24,27 @@ export class ActionBlueprintGraph {
   }
 
   /**
-   * Get a form by it's id
-   * @param formId form's component id
-   * @returns Dynamic form data
+   * Get a form by it's id.
+   * @param formId form's component id.
+   * @returns the form's data or undefined if not found.
    */
   public getFormById(formId: string): DynamicForm | undefined {
     return this._data.forms.find((f) => f.id === formId);
   }
 
+  /**
+   * Get node data by node id.
+   * @param nodeId
+   * @returns the node's data or undefined if not found.
+   */
   public getNodeData(nodeId: string): NodeData | undefined {
     return this._data.nodes.find((n) => n.id === nodeId)?.data;
   }
 
   /**
-   * * Get previous nodes connecting to node with id
+   * * Get previous nodes connecting to node with id.
    * @param nodeId
-   * @returns array of previous nodes
+   * @returns array of previous nodes.
    */
   public getPrevNodes(nodeId: string): string[] {
     const prevNodes = new Set<string>();

@@ -12,6 +12,11 @@ export const ActionBlueprintGraphContext = createContext<ActionBlueprintGraphCon
   loading: false,
 });
 
+/**
+ * Provides the action blueprint graph for the app.
+ * @param param0
+ * @returns
+ */
 export default function ActionBlueprintGraphProvider({ children }: { children: ReactNode }) {
   const [actionBlueprintGraph, setActionBlueprintGraph] = useState<ActionBlueprintGraph | null>(
     null
