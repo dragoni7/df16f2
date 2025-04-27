@@ -1,6 +1,6 @@
 # DF16F2 Coding Challenge
 
-Coding challenge submission by Samuel Gibson
+Coding challenge submission by Samuel Gibson. Built with Vite, React, Typescript, and MUI.
 
 ## Running the project
 
@@ -11,11 +11,13 @@ Coding challenge submission by Samuel Gibson
 
 ### Data sources
 
-Currently prefill options are Global Data and previous form's data. To add new data sources, simply add another PrefillDataSource component to FormField.
+Currently prefill options are Global Data and previous form's data. To add new data sources, simply add another [PrefillDataSource](https://github.com/dragoni7/df16f2/blob/main/src/features/FormGraph/components/PrefillDataSource.tsx) component to [FormField](https://github.com/dragoni7/df16f2/blob/main/src/features/FormGraph/components/FormField.tsx).
 
 ```tsx
 <Box p={2} overflow="scroll" height="100%" sx={{ backgroundColor: 'lightgrey' }}>
   <Typography>Available data</Typography>
+
+   {/* Global Data */}
   <PrefillDataSource
     onOptionClicked={setSelectedOption}
     selectedOption={selectedOption}
@@ -23,6 +25,8 @@ Currently prefill options are Global Data and previous form's data. To add new d
     dataPrefix={'Global'}
     options={GLOBAL_DATA}
   />
+
+   {/* Previous Form Data */}
   {Object.entries(prefillOptions).map(([key, value]) => (
     <PrefillDataSource
       onOptionClicked={setSelectedOption}
@@ -32,5 +36,17 @@ Currently prefill options are Global Data and previous form's data. To add new d
       options={value}
     />
   ))}
+
+   {/* Example Addition */}
+  <PrefillDataSource
+    onOptionClicked={setSelectedOption}
+    selectedOption={selectedOption}
+    label={'Example Data'}
+    dataPrefix={'Example'}
+    options={['option1', 'option2', 'option3']}
+  />
 </Box>
 ```
+### Adding new features
+
+New features can be added by including a new folder for the feature in the features directory. Features should be organized by components, api, hooks, types, and util to encourage seperation of concern and decoupling.
