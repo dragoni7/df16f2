@@ -1,34 +1,29 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { BlueprintGraph, DynamicForm } from '../types';
-import { GetActionBlueprintGraph } from '../api/get-action-blueprint-graph';
+import { GetActionBlueprintGraph as GetActionBlueprintGraphData } from '../api/get-action-blueprint-graph-data';
+import { ActionBlueprintGraph } from '../util/action-blueprint-graph';
 
 type ActionBlueprintGraphContextProps = {
-  graph: BlueprintGraph | null;
+  graph: ActionBlueprintGraph | null;
   loading: boolean;
-  getForm: (id: string) => DynamicForm | undefined;
 };
 
 export const ActionBlueprintGraphContext = createContext<ActionBlueprintGraphContextProps>({
   graph: null,
   loading: false,
-  getForm: function (id: string): DynamicForm | undefined {
-    throw new Error('Function not implemented.');
-  },
 });
 
 export default function ActionBlueprintGraphProvider({ children }: { children: ReactNode }) {
-  const [graph, setGraph] = useState<BlueprintGraph | null>(null);
+  const [actionBlueprintGraph, setActionBlueprintGraph] = useState<ActionBlueprintGraph | null>(
+    null
+  );
   const [loading, setLoading] = useState<boolean>(true);
-
-  function getForm(id: string): DynamicForm | undefined {
-    return graph?.forms.find((f) => f.id === id);
-  }
 
   useEffect(() => {
     async function fetchGraph() {
       setLoading(true);
-      const graph = await GetActionBlueprintGraph();
-      setGraph(graph);
+      const graphData = await GetActionBlueprintGraphData();
+      const graph = graphData ? new ActionBlueprintGraph(graphData) : null;
+      setActionBlueprintGraph(graph);
       setLoading(false);
     }
 
@@ -36,7 +31,7 @@ export default function ActionBlueprintGraphProvider({ children }: { children: R
   }, []);
 
   return (
-    <ActionBlueprintGraphContext.Provider value={{ graph, loading, getForm }}>
+    <ActionBlueprintGraphContext.Provider value={{ graph: actionBlueprintGraph, loading }}>
       {children}
     </ActionBlueprintGraphContext.Provider>
   );

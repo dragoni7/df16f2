@@ -21,15 +21,15 @@ export default function FormGraph() {
   const { graph, loading } = useActionBlueprintGraph();
 
   useEffect(() => {
-    if (!loading && graph) console.log(graph.nodes);
+    if (!loading && graph) console.log(graph.getData().nodes);
   }, []);
 
   return (
     <Box width="100%" height="100%" p={2}>
       {!loading && graph ? (
         <ReactFlow
-          nodes={graph.nodes}
-          edges={graph.edges.map((e: Edge) => {
+          nodes={graph.getData().nodes}
+          edges={graph.getData().edges.map((e: Edge) => {
             return { id: e.source + '-' + e.target, source: e.source, target: e.target };
           })}
           nodeTypes={nodeTypes}

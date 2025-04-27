@@ -9,14 +9,34 @@ interface FormProps {
   data: NodeData;
 }
 export default function Form(props: FormProps) {
-  const { getForm, loading } = useActionBlueprintGraph();
+  const { graph, loading } = useActionBlueprintGraph();
   const [formData, setFormData] = useState<DynamicForm | undefined>(undefined);
+  const [predecessorFormOptions, setPredecessorFormOptions] = useState<Record<string, string[]>>(
+    {}
+  );
 
   const { data } = props;
 
   useEffect(() => {
-    if (!loading) {
-      setFormData(getForm(data.component_id));
+    if (!loading && graph) {
+      setFormData(graph.getFormById(data.component_id));
+
+      const pFormOptions: Record<string, string[]> = {};
+
+      // retrieve prefill data
+      for (const nodeId of graph.getPrevNodes(data.component_key)) {
+        const nodeData = graph.getNodeData(nodeId);
+
+        if (!nodeData) continue;
+
+        const formData = graph.getFormById(nodeData.component_id);
+
+        if (!formData) continue;
+
+        pFormOptions[nodeData.name] = Object.keys(formData.dynamic_field_config);
+      }
+
+      setPredecessorFormOptions(pFormOptions);
     }
   }, [loading]);
 
@@ -28,13 +48,19 @@ export default function Form(props: FormProps) {
   });
 
   return (
-    <Stack p={2}>
+    <Stack p={2} marginTop={4} marginBottom={10}>
       <Typography variant="h6">Prefill</Typography>
       <Typography variant="caption">Prefill fields for this form</Typography>
       <Box component="form" marginTop={2}>
         {formData &&
-          Object.entries(formData.dynamic_field_config).map(([key, value]) => (
-            <FormField field={key} control={control} errors={errors} defaultValue={key} />
+          Object.keys(formData.dynamic_field_config).map((key) => (
+            <FormField
+              field={key}
+              control={control}
+              errors={errors}
+              defaultValue={key}
+              prefillOptions={predecessorFormOptions}
+            />
           ))}
       </Box>
     </Stack>

@@ -1,27 +1,34 @@
-import { Cancel, StorageOutlined } from '@mui/icons-material';
+import { Cancel, ExpandMoreOutlined, StorageOutlined } from '@mui/icons-material';
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   Divider,
   Drawer,
   IconButton,
   InputAdornment,
+  List,
+  ListItem,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
+import { GLOBAL_DATA } from '../util/global-data';
 
 interface FormFieldProps<T extends Record<string, any>> {
   field: keyof T;
   control: Control<T>;
   errors: FieldErrors<T>;
   defaultValue?: string;
+  prefillOptions: Record<string, string[]>;
 }
 
 export default function FormField<T extends Record<string, any>>(props: FormFieldProps<T>) {
-  const { field, control, errors, defaultValue } = props;
+  const { field, control, errors, defaultValue, prefillOptions } = props;
   const [prefillOpen, setPrefillOpen] = useState<boolean>(false);
 
   return (
@@ -67,6 +74,42 @@ export default function FormField<T extends Record<string, any>>(props: FormFiel
         <Divider />
         <Box p={2} overflow="scroll" height="100%" sx={{ backgroundColor: 'lightgrey' }}>
           <Typography>Available data</Typography>
+          <Accordion
+            disableGutters
+            variant="outlined"
+            elevation={0}
+            sx={{ backgroundColor: 'transparent' }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreOutlined />}>
+              <Typography>Global Data</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <List>
+                {GLOBAL_DATA.map((g) => (
+                  <ListItem>{g}</ListItem>
+                ))}
+              </List>
+            </AccordionDetails>
+          </Accordion>
+          {Object.entries(prefillOptions).map(([key, value]) => (
+            <Accordion
+              disableGutters
+              variant="outlined"
+              elevation={0}
+              sx={{ backgroundColor: 'transparent' }}
+            >
+              <AccordionSummary expandIcon={<ExpandMoreOutlined />}>
+                <Typography>{key}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <List>
+                  {value.map((v) => (
+                    <ListItem>{v}</ListItem>
+                  ))}
+                </List>
+              </AccordionDetails>
+            </Accordion>
+          ))}
         </Box>
         <Divider />
         <Stack direction="row" justifyContent="end" p={1} spacing={2}>

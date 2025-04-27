@@ -1,9 +1,9 @@
-import { BlueprintGraph } from '../types';
+import { ActionBlueprintGraphData } from '../types';
 
 /**
  * Retrieve the action blueprint graph from local server
  */
-export async function GetActionBlueprintGraph(): Promise<BlueprintGraph | null> {
+export async function GetActionBlueprintGraph(): Promise<ActionBlueprintGraphData | null> {
   try {
     const response = await fetch(
       'http://localhost:3000/api/v1/1/actions/blueprints/bp_01jk766tckfwx84xjcxazggzyc/graph',
@@ -14,7 +14,7 @@ export async function GetActionBlueprintGraph(): Promise<BlueprintGraph | null> 
 
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: BlueprintGraph = await response.json();
+    const data: ActionBlueprintGraphData = await response.json();
 
     console.log(data);
 
