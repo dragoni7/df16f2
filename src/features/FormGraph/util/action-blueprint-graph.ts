@@ -1,4 +1,4 @@
-import { ActionBlueprintGraphData, DynamicForm, NodeData } from '../types';
+import { ActionBlueprintGraphData, ActionBlueprintForm, NodeData } from '../types';
 
 /**
  * A directed acyclic graph of nodes containing form data.
@@ -28,7 +28,7 @@ export class ActionBlueprintGraph {
    * @param formId form's component id.
    * @returns the form's data or undefined if not found.
    */
-  public getFormById(formId: string): DynamicForm | undefined {
+  public getFormById(formId: string): ActionBlueprintForm | undefined {
     return this._data.forms.find((f) => f.id === formId);
   }
 

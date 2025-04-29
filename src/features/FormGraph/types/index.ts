@@ -2,19 +2,19 @@ export type ActionBlueprintGraphData = {
   $schema: string;
   blueprint_id: string;
   blueprint_name: string;
-  branches: Branch[];
-  edges: Edge[];
-  forms: DynamicForm[];
-  nodes: Node[];
+  branches: ActionBlueprintBranch[];
+  edges: ActionBlueprintEdge[];
+  forms: ActionBlueprintForm[];
+  nodes: ActionBlueprintNode[];
   status: 'draft' | 'published' | 'historical' | 'archived';
   tenant_id: string;
-  triggers: Trigger[];
+  triggers: ActionBlueprintTrigger[];
   version_id: string;
   version_notes: string;
   version_number: string;
 };
 
-export type Branch = {
+export type ActionBlueprintBranch = {
   $schema?: string;
   condition: any;
   created_at: Date;
@@ -26,12 +26,12 @@ export type Branch = {
   updated_at: Date;
 };
 
-export type Edge = {
+export type ActionBlueprintEdge = {
   source: string;
   target: string;
 };
 
-export type DynamicForm = {
+export type ActionBlueprintForm = {
   $schema?: string;
   custom_javascript?: string;
   custom_javascript_triggering_fields?: string[];
@@ -63,7 +63,7 @@ export type UISchema = {
   type: string;
 };
 
-export type Node = {
+export type ActionBlueprintNode = {
   data: NodeData;
   id: string;
   position: { x: number; y: number };
@@ -109,7 +109,7 @@ export type StateTransitionRules = {
   state_transition_rules_then: 'pending_approval' | 'complete';
 };
 
-export type Trigger = {
+export type ActionBlueprintTrigger = {
   $schema?: string;
   created_at: Date;
   id: string;

@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { NodeData, DynamicForm } from '../types';
+import { NodeData, ActionBlueprintForm } from '../types';
 import useActionBlueprintGraph from '../hooks/useActionBlueprintGraph';
 import { useEffect, useState } from 'react';
 import FormField from './FormField';
@@ -16,7 +16,7 @@ interface FormProps {
  */
 export default function Form(props: FormProps) {
   const { graph, loading } = useActionBlueprintGraph();
-  const [formData, setFormData] = useState<DynamicForm | undefined>(undefined);
+  const [formData, setFormData] = useState<ActionBlueprintForm | undefined>(undefined);
   const [predecessorFormOptions, setPredecessorFormOptions] = useState<Record<string, string[]>>(
     {}
   );
