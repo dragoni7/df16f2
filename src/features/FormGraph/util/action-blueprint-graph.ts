@@ -71,4 +71,8 @@ export class ActionBlueprintGraph {
 
     return Array.from(prevNodes);
   }
+
+  public getImmediatePred(nodeId: string): string[] {
+    return this._predecessorsMap.get(nodeId) ?? [];
+  }
 }

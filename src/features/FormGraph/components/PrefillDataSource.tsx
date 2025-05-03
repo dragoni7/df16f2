@@ -41,6 +41,7 @@ export default function PrefillDataSource(props: PrefillDataSourceProps) {
             <ListItemButton
               onClick={() => onOptionClicked(dataPrefix + '.' + option)}
               selected={selectedOption === dataPrefix + '.' + option}
+              key={label + option}
             >
               <ListItemText primary={option} />
             </ListItemButton>

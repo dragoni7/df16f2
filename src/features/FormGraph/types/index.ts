@@ -86,7 +86,7 @@ export type NodeData = {
   input_mapping: Record<string, any>;
   name: string;
   permitted_roles: string[];
-  prerequisities: string[];
+  prerequisites: string[];
   scheduled_delay?: Duration;
   sla_duration?: Duration;
   state_transition_rules?: StateTransitionRules;
@@ -126,4 +126,15 @@ export type ActionBlueprintTrigger = {
   timeout_seconds?: number;
   trigger_service_id: string;
   updated_at: Date;
+};
+
+export type PrefillOptions = {
+  global: boolean;
+  transitive: boolean;
+};
+
+export type PrefillData = {
+  label: string;
+  dataPrefix: string;
+  data: string[];
 };

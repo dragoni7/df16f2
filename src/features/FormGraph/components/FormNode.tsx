@@ -28,6 +28,7 @@ export default function FormNode({ data }: any) {
     >
       <Handle type="target" position={Position.Left} />
       <Box
+        key={data.id}
         sx={{
           backgroundColor: 'rgb(83, 110, 228)',
           borderRadius: 2,

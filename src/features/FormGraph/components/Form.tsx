@@ -1,9 +1,11 @@
 import { Box, Stack, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { NodeData, ActionBlueprintForm } from '../types';
+import { NodeData, ActionBlueprintForm, PrefillData } from '../types';
 import useActionBlueprintGraph from '../hooks/useActionBlueprintGraph';
 import { useEffect, useState } from 'react';
 import FormField from './FormField';
+import usePrefillOptions from '../hooks/usePrefillOptions';
+import { PrefillDataBuilder } from '../util/prefill-data-builder';
 
 interface FormProps {
   data: NodeData;
@@ -16,35 +18,33 @@ interface FormProps {
  */
 export default function Form(props: FormProps) {
   const { graph, loading } = useActionBlueprintGraph();
-  const [formData, setFormData] = useState<ActionBlueprintForm | undefined>(undefined);
-  const [predecessorFormOptions, setPredecessorFormOptions] = useState<Record<string, string[]>>(
-    {}
+  const [actionBlueprintForm, setActionBlueprintForm] = useState<ActionBlueprintForm | undefined>(
+    undefined
   );
-
+  const prefillOptions = usePrefillOptions();
+  const [prefillData, setPrefillData] = useState<PrefillData[]>([]);
   const { data } = props;
+
+  let prefillDataBuilder: PrefillDataBuilder;
 
   useEffect(() => {
     if (!loading && graph) {
-      setFormData(graph.getFormById(data.component_id));
+      setActionBlueprintForm(graph.getFormById(data.component_id));
 
-      const pFormOptions: Record<string, string[]> = {};
+      // initialize builder
+      if (!prefillDataBuilder) prefillDataBuilder = new PrefillDataBuilder(data, graph);
 
-      // retrieve prefill data
-      for (const nodeId of graph.getPrevNodes(data.component_key)) {
-        const nodeData = graph.getNodeData(nodeId);
+      if (prefillOptions.global) prefillDataBuilder.buildGlobalData();
 
-        if (!nodeData) continue;
-
-        const formData = graph.getFormById(nodeData.component_id);
-
-        if (!formData) continue;
-
-        pFormOptions[nodeData.name] = Object.keys(formData.dynamic_field_config);
+      if (prefillOptions.transitive) {
+        prefillDataBuilder.buildTransitiveData();
+      } else {
+        prefillDataBuilder.buildPrereqData();
       }
 
-      setPredecessorFormOptions(pFormOptions);
+      setPrefillData(prefillDataBuilder.getData());
     }
-  }, [loading]);
+  }, [loading, prefillOptions]);
 
   const {
     control,
@@ -58,14 +58,15 @@ export default function Form(props: FormProps) {
       <Typography variant="h6">Prefill</Typography>
       <Typography variant="caption">Prefill fields for this form</Typography>
       <Box component="form" marginTop={2}>
-        {formData &&
-          Object.keys(formData.dynamic_field_config).map((key) => (
+        {actionBlueprintForm &&
+          Object.keys(actionBlueprintForm.dynamic_field_config).map((key, index) => (
             <FormField
+              key={key + index}
               field={key}
               control={control}
               errors={errors}
-              defaultValue={key}
-              prefillOptions={predecessorFormOptions}
+              label={key}
+              prefillData={prefillData}
             />
           ))}
       </Box>

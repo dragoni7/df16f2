@@ -15,7 +15,6 @@ export async function GetActionBlueprintGraphData(): Promise<ActionBlueprintGrap
     if (!response.ok) throw new Error(response.statusText);
 
     const data: ActionBlueprintGraphData = await response.json();
-
     return data;
   } catch (err) {
     console.error(err);

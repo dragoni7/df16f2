@@ -3,10 +3,11 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FormGraph from '../features/FormGraph/components/FormGraph';
 import ActionBlueprintGraphProvider from '../features/FormGraph/components/ActionBlueprintGraphProvider';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
         <AppBar position="static">
           <Toolbar>
@@ -62,7 +63,7 @@ function App() {
           </IconButton>
         </Box>
       </Box>
-    </>
+    </BrowserRouter>
   );
 }
 

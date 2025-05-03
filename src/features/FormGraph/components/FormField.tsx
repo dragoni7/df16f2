@@ -12,15 +12,15 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-import { GLOBAL_DATA } from '../util/global-data';
 import PrefillDataSource from './PrefillDataSource';
+import { PrefillData } from '../types';
 
 interface FormFieldProps<T extends Record<string, any>> {
   field: keyof T;
   control: Control<T>;
   errors: FieldErrors<T>;
-  defaultValue: string;
-  prefillOptions: Record<string, string[]>;
+  label: string;
+  prefillData: PrefillData[];
 }
 
 /**
@@ -29,13 +29,13 @@ interface FormFieldProps<T extends Record<string, any>> {
  * @returns
  */
 export default function FormField<T extends Record<string, any>>(props: FormFieldProps<T>) {
-  const { field, control, errors, defaultValue, prefillOptions } = props;
+  const { field, control, errors, label, prefillData } = props;
   const [prefillOpen, setPrefillOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   return (
-    <>
+    <Box>
       <Controller
         name={field as any}
         control={control}
@@ -44,7 +44,7 @@ export default function FormField<T extends Record<string, any>>(props: FormFiel
             {...renderField}
             fullWidth
             margin="normal"
-            placeholder={defaultValue}
+            placeholder={label}
             error={!!errors[field as string]}
             helperText={errors[field as string]?.message as string}
             value={value}
@@ -84,20 +84,14 @@ export default function FormField<T extends Record<string, any>>(props: FormFiel
         <Divider />
         <Box p={2} overflow="scroll" height="100%" sx={{ backgroundColor: 'lightgrey' }}>
           <Typography>Available data</Typography>
-          <PrefillDataSource
-            onOptionClicked={setSelectedOption}
-            selectedOption={selectedOption}
-            label={'Global Data'}
-            dataPrefix={'Global'}
-            options={GLOBAL_DATA}
-          />
-          {Object.entries(prefillOptions).map(([key, value]) => (
+          {prefillData.map((pData, index) => (
             <PrefillDataSource
+              key={pData.label + index}
               onOptionClicked={setSelectedOption}
               selectedOption={selectedOption}
-              label={key}
-              dataPrefix={key}
-              options={value}
+              label={pData.label}
+              dataPrefix={pData.dataPrefix}
+              options={pData.data}
             />
           ))}
         </Box>
@@ -117,6 +111,6 @@ export default function FormField<T extends Record<string, any>>(props: FormFiel
           </Button>
         </Stack>
       </Drawer>
-    </>
+    </Box>
   );
 }
